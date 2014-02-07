@@ -1,0 +1,11 @@
+{% load staticfiles %}
+
+body {
+  padding-top: 50px;
+
+  background: url("/static/img/graphy/graphy.png");
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+}
