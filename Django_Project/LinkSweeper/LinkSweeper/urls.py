@@ -5,8 +5,10 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    
     url(r'^$', 'players.views.game_view'),
     url(r'^logout/$', 'players.views.logout_view'),
+    url(r'linkgen/$', 'LinkSweeper.views.link_gen_test',name='lg_test'),
 
     # Ajax calls
     url(r'^ajax/update/score/$', 'players.ajax.update_score'),
