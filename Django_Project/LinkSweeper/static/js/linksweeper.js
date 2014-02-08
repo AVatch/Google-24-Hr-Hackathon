@@ -144,15 +144,20 @@ function verify(elm) {
         translate_choice_to_human_lang = false; // RED
     }
     var mask = elm.next('.mask');
-    mask.css('display','block');
-    if(translate_choice_to_human_lang == window.game_links[link].value){
-        mask.children('.mask-msg').text('Correct!').css('color','green');
-        game_score += 1;
-    }else{
-        mask.children('.mask-msg').text('Wrong!').css('color','red');
-        game_score -= 1;
-    }
-    update_score();
+    mask.css({
+        'opacity':'0',
+        'display':'block'
+    });
+    mask.animate({opacity:0.95},500,function() {
+        if(translate_choice_to_human_lang == window.game_links[link].value){
+            mask.children('.mask-msg').text('Correct!').css('color','green');
+            game_score += 1;
+        }else{
+            mask.children('.mask-msg').text('Wrong!').css('color','red');
+            game_score -= 1;
+        }
+        update_score();
+    });
 }
 function update_score() {
     $("#score").text(game_score);
