@@ -3,7 +3,7 @@ body {
   background: url("../img/graphy/graphy.png");
 }
 #game-container {
-    min-height: 80%;
+    min-height: 40%;
 }
 .starter-template {
   padding: 40px 15px;

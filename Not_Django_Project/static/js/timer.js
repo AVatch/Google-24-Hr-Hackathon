@@ -20,9 +20,9 @@ function startTimer(t) {
     }
     setTimeout(startTimer(),WAIT_PERIOD);
 }
-
 function updateTimer() {
     $('#timer-min').text(getMinutes());
     $('#timer-sec').text(getSeconds());
     $('#timer-mil').text(getMillis());
 }
+

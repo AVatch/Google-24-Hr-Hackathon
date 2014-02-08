@@ -169,7 +169,7 @@ function verify(elm) {
         'opacity':'0',
     });
     mask.animate({opacity:0.95},function() {
-        if ( translate_choice_to_human_lang == window.game_links[link].value ) {
+        if ( translate_choice_to_human_lang == window.game_links[link_txt].value ) {
             mask.children('.mask-msg').text('Correct!').css('color','green');
         game_score += 1000;
                     report_error(link_txt, 'Safe', translate_choice_to_human_lang);
