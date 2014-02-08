@@ -31,22 +31,27 @@
 
 		<button type="button" id="post-score" class="btn btn-info">ClickME</button>
 
-		<button id="cl">Click Me</button>
+		<div class="row">
+
+			<!-- Link Obj -->
+			<div class="link-container col-md-4 col-md-offset-2 center" style="border: 1px solid;">
+
+					<div class="link" style="margin: 0px; margin-top:4%;">
+						<p style="border: 1px solid;">I AM A DUBIOUS LINK</p>
+					</div>
+
+			</div>
+			<!-- End Link -->
+
+		</div>
 
 	</div>
+
 	<div class="col-md-3 col-md-offset-1" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 5px;">
+		
 		<div class="row" >
 			<div class="col-md-10 col-md-offset-1">
-				<h4 style="display: inline;">Score</h4>
-				<button type="button" class="btn btn-info pull-right score-refresh" style="display: inline;">R</button>
-			</div>
-		</div>
-		<div class="row" >
-			<div class="col-md-5 col-md-offset-1" style="border-bottom: 1px dashed;">
-				<p style="margin-bottom: 1px;"><strong>Username</strong></p>
-			</div>
-			<div class="col-md-5" style="border-bottom: 1px dashed;">
-				<p style="margin-bottom: 1px;"><strong>Score</strong></p>
+				<h4 style="display: inline;">Personal Best</h4>
 			</div>
 		</div>
 
@@ -59,9 +64,36 @@
 			</div>
 		</div>
 
-		<div class="row">
+	
 
+
+		<div class="row" >
+			<div class="col-md-10 col-md-offset-1">
+				<h4 style="display: inline;">Score</h4>
+			</div>
 		</div>
+		<div class="row" >
+			<div class="col-md-5 col-md-offset-1" style="border-bottom: 1px dashed;">
+				<p style="margin-bottom: 1px;"><strong>Username</strong></p>
+			</div>
+			<div class="col-md-5" style="border-bottom: 1px dashed;">
+				<p style="margin-bottom: 1px;"><strong>Score</strong></p>
+			</div>
+		</div>
+
+		{% for player in list_of_users %}
+
+			<div class="row">
+				<div class="col-md-5 col-md-offset-1">
+					<p style="margin-bottom: 1px; margin-top: 1px;">{{ player.username }}</p>
+				</div>
+				<div class="col-md-4">
+					<p style="margin-bottom: 1px; margin-top: 1px;">{{ player.score }}</p>
+				</div>
+			</div>
+
+		{% endfor %}
+
 
 	</div>
 </div>

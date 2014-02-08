@@ -1,17 +1,21 @@
 $(document).ready(function() {
-
-
-$("#cl").click(function(){
-alert("HELLO WORLD!");
-
     var game_score = 0;
-    game_score = 100;
 
-    console.log("WHAT IS UP");
+    // Links
+    $(function() {
+        $( ".link" ).draggable({ 
+            axis: "x",
+            cursor: "move", 
+            containment: ".link-container",
+            revert: true
+        });
+    });
+
 
     // AJAX POST
     $('#post-score').click(function(){
-        console.log('HI');
+        game_score += 109;
+        console.log(game_score)
         $.ajax({
             type: "POST",
             url: "ajax/update/score/",

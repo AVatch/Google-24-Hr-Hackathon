@@ -9,3 +9,10 @@ body {
   padding: 40px 15px;
   text-align: center;
 }
+
+.center {
+	text-align: center;
+}
+.center > * {
+	display: inline-block;
+}
