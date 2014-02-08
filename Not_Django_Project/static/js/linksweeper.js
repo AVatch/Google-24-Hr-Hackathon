@@ -4,6 +4,8 @@ var game_links_left = 0;
 var game_lvl = 0;
 var tmplinks = ['aple', 'asas', 'asasa', 'dsfs', 'sfewf', 'fewfw', 'fwfwfw', 'rwefwf', 'wef23rfe', 'fwfwfw', 'rwefwf', 'wef23rfe'];
 
+var attmpts = 1;
+
 
 // RANDOM POPUP TEXT
 var r_text = new Array ();
@@ -135,12 +137,26 @@ function play_game(){
         });
 }
 
-function report_error(link){
-    $('$error-report').append("<p>"+ link +"</p>");
+function report_error(link, status, user_ans){
+    console.log('link');
+
+    $('#error-report').append("<tr>");
+    $('#error-report').append("<td>"+ attmpts +"</td>");
+    $('#error-report').append("<td>"+ link +"</td>");
+    if(user_ans==true){
+        $('#error-report').append("<td>Safe</td>");
+    }else{
+        $('#error-report').append("<td>Unsafe</td>");
+
+    }
+    $('#error-report').append("<td>"+ status +"</td>");
+    $('#error-report').append("</tr>");
+
+    attmpts++;
 }
 
 function verify(elm) {
-    var link = elm.text(),choice = elm.parent().css("background-color");
+    var link_txt = elm.text(),choice = elm.parent().css("background-color");
     var translate_choice_to_human_lang;
     if(choice == "rgb(0, 128, 0)"){
         translate_choice_to_human_lang = true; // GREEN
@@ -155,10 +171,12 @@ function verify(elm) {
     mask.animate({opacity:0.95},function() {
         if ( translate_choice_to_human_lang == window.game_links[link].value ) {
             mask.children('.mask-msg').text('Correct!').css('color','green');
-            game_score += 1;
+        game_score += 1000;
+                    report_error(link_txt, 'Safe', translate_choice_to_human_lang);
+
         } else {
             console.log('INCORRECT');
-            // report_error(window.game_links[link]);
+        report_error(link_txt, 'Unsafe', translate_choice_to_human_lang);
             var chance;
             chance = Math.random()*100;
             if(chance >= 90){
@@ -168,6 +186,8 @@ function verify(elm) {
             mask.children('.mask-msg').text('Wrong!').css('color','red');
             game_score -= 1;
         }
+        mask.children('.mask-msg').text('Wrong!').css('color','red');
+        game_score -= 1000;
     });
     update_score();
 }
