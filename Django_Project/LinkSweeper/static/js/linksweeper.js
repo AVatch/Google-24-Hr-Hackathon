@@ -27,7 +27,7 @@ function generate_game_board(parent_div, level_type){
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
                                     "<p class='link-styler' style='background-color: white;'></p>" +
-                                    "<div class='mask'></div>"+
+                                    "<div class='mask center'><span class='mask-msg'></span></div>"+
                                 "</div>" +
                             "</div>" +
                       "</td>";
@@ -149,39 +149,35 @@ function play_game(){
 }
 
 function verify(elm) {
-    var link = elm.text(),
-        choice = elm.parent().css("background-color");
-    console.log(link + " Choice: " + choice + " " + window.game_links[link].value);
+    var link = elm.text(),choice = elm.parent().css("background-color");
     var translate_choice_to_human_lang;
     if(choice == "rgb(0, 128, 0)"){
         translate_choice_to_human_lang = true; // GREEN
     }else if(choice == "rgb(255, 0, 0)"){
         translate_choice_to_human_lang = false; // RED
     }
-  
+    var mask;
     if(translate_choice_to_human_lang == window.game_links[link].value){
-        console.log('CORRECT');
-        $(this).next().css('display',)
+        mask = elm.next();
+        console.log("mask");
+        console.log(mask);
+        mask.css({
+            'display':'block',
+            'color':'green',
+        });
+        mask.children('mask-msg').text('Correct!');
         game_score += 1;
     }else{
-        console.log('INCORRECT');
+        mask = elm.next();
+        mask.css({
+            'display':'block',
+            'color':'red',
+        });
+        mask.children('mask-msg').text('Error!');
+        console.log("mask");
+        console.log(mask);
         game_score -= 1;
     }
-
-    console.log('VALUE: ' + window.game_links[link].value + ' CHOICE: ' + translate_choice_to_human_lang);
-
-
-    // if (window.game_links[link].value && "rgb(0, 128, 0)" === choice) {
-    //     game_score -= 1;
-    // } 
-    // else if (window.game_links[link].value && "rgb(255, 0, 0)" === choice) {
-    //     game_score -= 1;
-    // } else {
-    //     game_score += 1;
-    // }
-
-    console.log(window.game_links[link].value);
-
     update_score();
 }
 function update_score() {
