@@ -107,7 +107,15 @@ function clean_board(parent_div){
 }
 
 function validate_game(){
+    if(game_lvl >= 2){
+        console.log('DONE');
+        clean_board('.game-board');
+        $('.game-board').html('<p>DONE</p>');
+        update_score_push();
+        return;
+    }
     if(game_links_left == 0){
+        game_lvl += 1;
         clean_board('.game-board');
         generate_game_board('.game-board', 'grid');
         play_game();
@@ -230,6 +238,21 @@ function update_score() {
     $("#score").text(game_score);
 }
 
+function update_score_push() {
+    $.ajax({
+            type: "POST",
+            url: "ajax/update/score/",
+            dataType: "json",
+            data: { "game_score": game_score },
+            success: function(ajax_response) {
+                console.log(ajax_response);
+                if (ajax_response == 'PASS'){
+                    location.reload(true);
+                }
+            }
+        });
+}
+
 $(document).ready(function() {
 /*
 $('.link').generate() // will create a link and set the content
@@ -283,22 +306,7 @@ or just a call to destroyLink(link,difficulty);
     });
 
     // AJAX POST
-    $('#post-score').click(function(){
-        game_score += 109;
-        console.log(game_score)
-        $.ajax({
-            type: "POST",
-            url: "ajax/update/score/",
-            dataType: "json",
-            data: { "game_score": game_score },
-            success: function(ajax_response) {
-                console.log(ajax_response);
-                if (ajax_response == 'PASS'){
-                    location.reload(true);
-                }
-            }
-        });
-    });
+    $('#post-score').click();
 
     // CSRF code
     function getCookie(name) {
