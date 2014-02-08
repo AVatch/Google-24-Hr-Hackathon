@@ -12,6 +12,7 @@ body {
 
 .link-styler {
 	text-decoration: underline;
+	font-size:18px;
 	border-radius: 5px;
 	color: blue;
 	padding: 2px;

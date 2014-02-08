@@ -111,7 +111,7 @@ function validate_game(){
         if(game_lvl >= 1){
             console.log('DONE');
             clean_board('.game-board');
-            $('.game-board').html('<p>DONE</p>');
+            $('.game-board').html('<p>DONE</p> <a id="Refresh_Game" class="Refresh_Game btn btn-primary" type="button">Play Again</a>');
             update_score_push();
             return;
         }
@@ -220,6 +220,12 @@ function verify(link,choice) {
         game_score += 1;
     }else{
         console.log('INCORRECT');
+        var chance;
+        chance = Math.random()*100;
+        if(chance >= 90){
+            console.log('OHHHHNOOESS');
+            $( "#trigger-hell" ).trigger( "click" );
+        }
         game_score -= 1;
     }
 
@@ -252,7 +258,7 @@ function update_score_push() {
             success: function(ajax_response) {
                 console.log(ajax_response);
                 if (ajax_response == 'PASS'){
-                    location.reload(true);
+                    console.log('DONE');
                 }
             }
         });
@@ -282,7 +288,8 @@ or just a call to destroyLink(link,difficulty);
 
 
     // POPUP SHANIGANS
-    $('#trigger-hell2').click(function(){
+    $('#trigger-hell').click(function(){
+        console.log('Hell starting');
         var counter = 5;
         while(counter > 0){
             counter--;
@@ -293,7 +300,7 @@ or just a call to destroyLink(link,difficulty);
 
             new Messi(r_text[i], {
 
-                title: 'BONUS ROUND', 
+                title: 'OOPS', 
                 center: false, 
                     viewport: {
                         top: top_val+'px', 
@@ -309,6 +316,15 @@ or just a call to destroyLink(link,difficulty);
         }
 
     });
+
+    $('#Refresh_Game').click(function() {
+                console.log('RELOAD');
+                location.reload(true);
+            });
+    $('.Refresh_Game').click(function() {
+                console.log('RELOAD');
+                location.reload(true);
+            });
 
     // AJAX POST
     $('#post-score').click();
