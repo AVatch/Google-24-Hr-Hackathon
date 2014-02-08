@@ -1,31 +1,22 @@
 $(document).ready(function() {
 
-    // AJAX GET
-    $('.get-more').click(function(){
 
-        $.ajax({
-            type: "GET",
-            url: "/ajax/refresh/score",
-            success: function(data) {
-            for(i = 0; i < data.length; i++){
-                $('ul').append('<li>'+data[i]+'</li>');
-            }
-        }
-        });
+$("#cl").click(function(){
+alert("HELLO WORLD!");
 
-    });
+    var game_score = 0;
+    game_score = 100;
+
+    console.log("WHAT IS UP");
 
     // AJAX POST
-    $('.theme-sel').click(function(){
-        var theme_choice = $(this).attr('id').substring(10);
-
-        console.log(theme_choice);
-
+    $('#post-score').click(function(){
+        console.log('HI');
         $.ajax({
             type: "POST",
-            url: "/ajax/update/score",
+            url: "ajax/update/score/",
             dataType: "json",
-            data: { "theme": theme_choice },
+            data: { "game_score": game_score },
             success: function(ajax_response) {
                 console.log(ajax_response);
                 if (ajax_response == 'PASS'){
