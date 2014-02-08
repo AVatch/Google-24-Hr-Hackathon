@@ -20,6 +20,7 @@ body {
 .link-container{
 	width: 250px;
 	border: 1px solid;
+    margin-bottom:2%;
     position: relative;
 }
 .link {
@@ -47,6 +48,7 @@ body {
 }
 .mask-msg {
     position: absolute;
+    left: 40%;
     max-height:100%;
     max-width:100%;
     opacity: 1;

@@ -85,36 +85,35 @@ var swaps = {
 
 
 var link_set = [
-
-    'http://www.google.com',
-    'http://www.facebook.com',
-    'http://www.youtube.com',
-    'http://www.yahoo.com',
-    'http://www.baidu.com',
-    'http://www.wikipedia.com',
-    'http://www.qq.com',
-    'http://www.live.com',
-    'http://www.taobao.com',
-    'http://www.linkedin.com',
-    'http://www.twitter.com',
-    'http://www.amazon.com',
-    'http://www.blogspot.com',
-    'http://www.wordpress.com',
-    'http://www.bing.com',
-    'http://www.pinterest.com',
-    'http://www.ask.com',
-    'http://www.msn.com',
-    'http://www.tumblr.com',
-    'http://www.instagram.com',
-    'http://www.microsoft.com',
-    'http://www.paypal.com',
-    'http://www.imdb.com',
-    'http://www.apple.com',
-    'http://www.imgur.com',
-    'http://www.stackoverflow.com',
-    'http://www.adobe.com',
-    'http://www.cnn.com',
-    'http://www.wordpress.com'
+    'www.google.com',
+    'www.facebook.com',
+    'www.youtube.com',
+    'www.yahoo.com',
+    'www.baidu.com',
+    'www.wikipedia.com',
+    'www.qq.com',
+    'www.live.com',
+    'www.taobao.com',
+    'www.linkedin.com',
+    'www.twitter.com',
+    'www.amazon.com',
+    'www.blogspot.com',
+    'www.wordpress.com',
+    'www.bing.com',
+    'www.pinterest.com',
+    'www.ask.com',
+    'www.msn.com',
+    'www.tumblr.com',
+    'www.instagram.com',
+    'www.microsoft.com',
+    'www.paypal.com',
+    'www.imdb.com',
+    'www.apple.com',
+    'www.imgur.com',
+    'www.stackoverflow.com',
+    'www.adobe.com',
+    'www.cnn.com',
+    'www.wordpress.com'
 ];
 
 
@@ -125,11 +124,17 @@ var easter_eggs = [
 
 
 
+
 /* Main Generation Function */
 function getLink(level) {
-    var x = Math.floor(link_set.length*Math.random());
-
-    return destroyLink(link_set[x],level);
+    console.log(level);
+    var x = randomInt(0,link_set.length);
+    if (level > 1) {
+        link = http() + link_set[x];
+    } else {
+        link = link_set[x];
+    }
+    return destroyLink(link,level);
 }
 
 /* Main Link Destruction Function */
@@ -144,7 +149,7 @@ function destroyLink(link,level) {
         };
     } else {
         var diff = levelToDifficulty(level),
-        n_options = 2;
+        n_options = 3;
         var type = randomInt(1,n_options);
         console.log(type);
         switch (type) {
@@ -164,6 +169,14 @@ function destroyLink(link,level) {
                 value = false;
                 type = "subtract_add";
                 break;
+            case 3:
+                link_info = shuffleLetter(link,diff);
+                if (link_info.invalid) break;
+                link = link_info.link;
+                pos = link_info.pos;
+                value = false;
+                type = "shuffle";
+                break;
             default:
                 link = link;
                 value = true;
@@ -182,7 +195,7 @@ function destroyLink(link,level) {
 function letterSwap(link,difficulty) {
     var n = randomInt(0,link.length);
     try {
-        var r = randomInt(0,swaps[link[n]].length);
+        var r = Math.floor(difficulty*swaps[link[n]].length);
         link = link.substr(0,n) + swaps[link[n]][r] + link.substr(n+1);
         pos = n;
         invalid = false;
@@ -211,7 +224,30 @@ function subtractAddLetter(link,difficulty) {
         invalid:false
     }
 }
-
+function shuffleletters(link,difficulty) {
+    var n = randomInt(0,link.length);
+    if (link[n-1] != link[n]) {
+        link = link.substr(0,n)+link[n]+link[n-1]+link.substr(n+1);
+    } else if (link[n+1] != link[n]) {
+        link = link.substr(0,n)+link[n+1]+link[n]+link.substr(n-2);
+    } else {
+        index = -1;
+        invalid = true;
+        for (n_i=n,n=n+1; n!=n_i;n=(n+1)%n){
+            if (link[n] != link[n+1]) {
+                link = link.substr(0,n)+link[n+1]+link[n]+link.substr(n+1);
+                pos = n;
+                invalid = false;
+                break;
+            }
+        }
+    }
+    return {
+        link:link,
+        pos:index,
+        invalid:invalid;
+    }
+}
 
 
 /* Helper Methods */
@@ -219,7 +255,6 @@ function tanh(x) {
     // e^x - e^-x / e^x + e^-x
     return (Math.exp(2*x) - 1)/(Math.exp(2*x) + 1);
 }
-
 function levelToDifficulty(level) {
     var maxLevel = 10;
     /*
@@ -237,9 +272,34 @@ function randomInt(min,max) {
 $(window).ready(function () {
     window.game_links = new Object();
 });
+function len(item) {
+    try {
+        return item.length;
+    } catch (e) {
+        try {
+            count = 0;
+            for (var i in item) {
+                count++;
+            }
+            return count;
+        } catch (e2) {
+            return;
+        }
+    }
+}
+function http() {
+    if (random() > 0.5) {
+        return "https://";
+    } else {
+        return "http://"
+    }
+}
+
+
+
 /* jQuery wrapper */
-$.fn.generate = function() {
-    var link_info = getLink(window.level);
+$.fn.generate = function(level) {
+    var link_info = getLink(level);
     $(this).text(link_info.link); 
     window.game_links[link_info.link] = {
         value:link_info.value,
