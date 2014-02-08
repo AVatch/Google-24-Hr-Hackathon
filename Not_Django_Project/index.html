@@ -32,12 +32,12 @@
 						<li class="active">
 							<a href="#">Play</a>
 						</li>
-						<li>
+<!-- 						<li>
 							<a href="#">About</a>
 						</li>
 						<li>
 							<a href="#">The Team</a>
-						</li>
+						</li> -->
 					</ul>
 
 				</div><!--/.nav-collapse -->
@@ -55,34 +55,57 @@
 				</div>
 
 
-<div class="row">
-	<div class="col-md-12" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 5px;">
-		<h3>How long can you last?</h3>
-		<p>Current Score: <span id="score"></span> points</p>
-		<p><strong>Rules:</strong> Drag to the <strong style='color:red;'>left</strong> for <strong>Insercure</strong> link, Drag to the <strong  style='color:green;'>right</strong> for <strong>Secure</strong> link</p> 
+	<div class="row">
+		<div class="col-md-12" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 10px;">
+			<h3>Current Score: <span id="score"></span> points</h3>
+			<p><strong>Rules:</strong> Drag to the <strong style='color:red;'>left</strong> for <strong>Insercure</strong> link, Drag to the <strong  style='color:green;'>right</strong> for <strong>Secure</strong> link</p> 
 
-		<div class="row">
-			<div class="col-md-8 game-board">
+			<div class="row">
+				<div class="col-md-8 game-board">
 
+				</div>
 			</div>
-		</div>
 
-		<div class="row">
-			<div id="info" class="col-md-8" style="display: none;">
-				<p>DONE</p> 
-				<a id="Refresh_Game" class="Refresh_Game btn btn-primary" type="button">Play Again</a>
+			<div class="row">
+				<div id="info" class="col-md-8" style="display: none;">
+					<p>DONE</p> 
+					<a id="Refresh_Game" class="Refresh_Game btn btn-primary" type="button">Play Again</a>
+				</div>
 			</div>
-		</div>
 
-		<div class="row">
-			<div id="error-report" class="col-md-8" style="display: none;">
-				
-			</div>
 		</div>
 
 	</div>
+	
+	<div class="row">
 
-</div>
+		<div class="col-md-12"  style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 10px;">
+			<h3>Progress</h3>
+
+
+
+			<table class="table table-hover">
+		      <thead>
+		        <tr>
+		          <th>#</th>
+		          <th>Link</th>
+		          <th>Your Choice</th>
+		          <th>Answer</th>
+		        </tr>
+		      </thead>
+
+		      	<tbody id="error-report">
+
+
+		      	</tbody>
+		 	</table>
+
+		</div>
+
+
+
+	</div>
+
 
 
 		</div><!-- /.container -->
