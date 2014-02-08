@@ -127,7 +127,6 @@ var easter_eggs = [
 
 /* Main Generation Function */
 function getLink(level) {
-    console.log(level);
     var x = randomInt(0,link_set.length);
     if (level > 1) {
         link = http() + link_set[x];
@@ -245,7 +244,7 @@ function shuffleletters(link,difficulty) {
     return {
         link:link,
         pos:index,
-        invalid:invalid;
+        invalid:invalid
     }
 }
 
