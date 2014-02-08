@@ -91,11 +91,12 @@ function getLink(level) {
 
 /* Main Link Destruction Function */
 function destroyLink(link,level) {
-    var link, value;
+    var link, value, pos = -1;
     if (random() < window.probability) {
         return {
             link:link,
             value:true,
+            pos:pos,
             type:"valid"
         };
     } else {
@@ -105,12 +106,18 @@ function destroyLink(link,level) {
         console.log(type);
         switch (type) {
             case 1:
-                link = letterSwap(link,diff);
+                link_info = letterSwap(link,diff);
+                if (link_info.invalid) break;
+                link = link_info.link;
+                pos = link_info.pos;
                 value = false;
                 type = "letter_swap";
                 break;
             case 2:
-                link = subtractAddLetter(link,diff);
+                link_info = subtractAddLetter(link,diff);
+                if (link_info.invalid) break;
+                link = link_info;
+                pos = link_info.pos;
                 value = false;
                 type = "subtract_add";
                 break;
@@ -122,6 +129,7 @@ function destroyLink(link,level) {
         return {
             link:link,
             value:value,
+            pos:pos,
             type:type
         };
     }
@@ -133,19 +141,31 @@ function letterSwap(link,difficulty) {
     try {
         var r = randomInt(0,swaps[link[n]].length);
         link = link.substr(0,n) + swaps[link[n]][r] + link.substr(n+1);
-        return link;
+        pos = n;
+        invalid = false;
     } catch (e) {
         console.log(link[n]);
         console.log("invalid");
+        n = -1;
+        invalid = true;
     }
-    return link;
+    return {
+        link:link,
+        pos:n,
+        invalid:invalid
+    }
 }
 function subtractAddLetter(link,difficulty) {
     var n = randomInt(0,link.length);
     if (random() > 0.7) {
-        return link.substr(0,n) + link.substr(n+1);
+        link = link.substr(0,n) + link.substr(n+1);
     } else {
-        return link.substr(0,n) + link[n] + link.substr(n)
+        link = link.substr(0,n) + link[n] + link.substr(n)
+    }
+    return {
+        link:link,
+        pos:n,
+        invalid:false
     }
 }
 
@@ -180,7 +200,8 @@ $.fn.generate = function() {
     $(this).text(link_info.link); 
     window.game_links[link_info.link] = {
         value:link_info.value,
-        type:link_info.type
+        type:link_info.type,
+        pos:link_info.pos
     };
 };
 

@@ -17,82 +17,24 @@ r_text[6] = "California dreaming, On such a winter's day";
 
 function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
+        var grid_x = 3,grid_y=10,i,j;
         window.game_links = new Object();
-        var game_board_html =  " "+
-            "<table style='width:100%;'>"+
-                    "<tr>" +
-                      "<td>" +
+        var game_board_html =  "<table style='width:100%;'>";
+        for (i = 0; i < grid_y; i++) {
+            game_board_html += "<tr>";
+            for (j = 0; j <grid_x; j++) {
+                game_board_html += "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
                                     "<p class='link-styler' style='background-color: white;'></p>" +
+                                    "<div class='mask'></div>"+
                                 "</div>" +
                             "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                    "</tr>" +
-
-                    "<tr>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                    "</tr>" +
-
-                    "<tr>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                    "</tr>" +
-                "</table>";
-
+                      "</td>";
+            }
+            game_board_html += "</tr>";
+        }
+        game_board_html +="</table>";
         $(parent_div).html( game_board_html );
         $('.link-styler').each(function() {
             $(this).generate();
@@ -198,7 +140,7 @@ function play_game(){
 
                 // get the link in the box
                 // check if correct
-                verify($(this).text(),$(this).parent().css("background-color"));
+                verify($(this));
                 // update score mark as correct or not
                 console.log('Links left' + game_links_left);
                 validate_game();
@@ -206,7 +148,9 @@ function play_game(){
         });
 }
 
-function verify(link,choice) {
+function verify(elm) {
+    var link = elm.text(),
+        choice = elm.parent().css("background-color");
     console.log(link + " Choice: " + choice + " " + window.game_links[link].value);
     var translate_choice_to_human_lang;
     if(choice == "rgb(0, 128, 0)"){
@@ -217,6 +161,7 @@ function verify(link,choice) {
   
     if(translate_choice_to_human_lang == window.game_links[link].value){
         console.log('CORRECT');
+        $(this).next().css('display',)
         game_score += 1;
     }else{
         console.log('INCORRECT');
