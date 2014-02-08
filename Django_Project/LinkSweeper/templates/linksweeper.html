@@ -29,7 +29,9 @@
 		<p>{{ user.is_authenticated }}</p>
 		<p>{{ msg }}</p>
 
-		<button type="button" class="btn btn-info WIN">ClickME</button>
+		<button type="button" id="post-score" class="btn btn-info">ClickME</button>
+
+		<button id="cl">Click Me</button>
 
 	</div>
 	<div class="col-md-3 col-md-offset-1" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 5px;">
@@ -95,4 +97,8 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+{% endblock %}
+
+{% block extra_scripts %}
+	<script src="{% static 'js/linksweeper.js' %}"></script>
 {% endblock %}
