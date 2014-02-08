@@ -250,7 +250,7 @@ or just a call to destroyLink(link,difficulty);
             var top_val = Math.random()*500;
             var left_val = Math.random()*500;
 
-            var i = Math.floor(7*Math.random())
+            var i = Math.floor(7*Math.random());
 
             new Messi(r_text[i], {
 
