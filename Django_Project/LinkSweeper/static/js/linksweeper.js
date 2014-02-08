@@ -4,6 +4,10 @@ var game_links_left = 0;
 var game_level = 1;
 var tmplinks = ['aple', 'asas', 'asasa', 'dsfs', 'sfewf', 'fewfw', 'fwfwfw', 'rwefwf', 'wef23rfe', 'fwfwfw', 'rwefwf', 'wef23rfe'];
 
+var grid_y_val =3;
+
+var errors_made = [0,0,0];
+
 var attmpts = 1;
 var corr_atmps = 0;
 
@@ -23,7 +27,8 @@ r_text[6] = "California dreaming, On such a winter's day";
 function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
         //startTimer(30); 
-        var grid_x = 3,grid_y=3,i,j;
+        var grid_x = 3,grid_y=grid_y_val,i,j;
+        grid_y_val++;
         window.game_links = new Object();
         var game_board_html =  "<table style='width:100%;'>";
         for (i = 0; i < grid_y; i++) {
@@ -56,6 +61,14 @@ function generate_game_board(parent_div, level_type){
         start_html += ")'>Start</button>";
         start_html += "</div>";
         $(parent_div).html( start_html );
+    } else if (level_type=='end'){
+        update_score_push();
+        var end_html = "<div style=''>";
+        end_html += "<p>You got a total of: <strong>" + corr_atmps + " Correct</strong> ";
+        end_html += "out of <strong>" + attmpts + " Links</strong></p>";
+        end_html += "<p>Your missed type of faulty links were: <strong>letter_swap</strong>: " + errors_made[0] + " <strong>subtract_add</strong>: " + errors_made[1] + " <strong>shuffle</strong>: " + errors_made[2] + "</p>";  
+        end_html += "</div>";
+        $(parent_div).html( end_html );
     }
 }
 
@@ -69,10 +82,11 @@ function validate_game(){
         if(level >= 3){
             clean_board('.game-board');
             $('#info').css('display','block');
-            update_score_push();
+            generate_game_board('.game-board', 'end');
             return;
         }
         level += 1;
+        update_level();
         clean_board('.game-board');
         generate_game_board('.game-board', 'grid');
         play_game();
@@ -148,10 +162,10 @@ function play_game(){
         });
 }
 
-function report_error(link, user_ans, corr_ans){
+function report_error(link, type_err, user_ans, corr_ans){
     var err_report;
     err_report += "<tr>" + "<td>"+ attmpts + "</td>" + "<td>"+ link +"</td>";
-
+    err_report += "<td>"+ type_err +"</td>";
     if(user_ans==true){
         err_report += "<td>Safe</td>";
     }else{
@@ -189,9 +203,17 @@ function verify(elm) {
             mask.children('.mask-msg').attr('src','static/img/check.png');
             game_score += 1000;
             corr_atmps++;
-            report_error(link_txt, translate_choice_to_human_lang, translate_choice_to_human_lang ? "Safe" : "Unsafe");
+            report_error(link_txt, window.game_links[link_txt].type, translate_choice_to_human_lang, translate_choice_to_human_lang ? "Safe" : "Unsafe");
             
         } else {
+
+            if(window.game_links[link_txt].type == 'letter_swap'){
+                errors_made[0] ++;   
+            }else if(window.game_links[link_txt].type == 'subtract_add'){
+                errors_made[1] ++;    
+            }else if(window.game_links[link_txt].type == 'shuffle'){
+                errors_made[2] ++;    
+            }
 
             var chance;
             chance = Math.random()*100;
@@ -201,7 +223,7 @@ function verify(elm) {
 
             mask.children('.mask-msg').attr('src','static/img/ex.png');
             game_score -= 1000;
-            report_error(link_txt, translate_choice_to_human_lang,translate_choice_to_human_lang ? "Unsafe" : "Safe");
+            report_error(link_txt, window.game_links[link_txt].type, translate_choice_to_human_lang,translate_choice_to_human_lang ? "Unsafe" : "Safe");
         }
 
     });
@@ -216,6 +238,10 @@ function update_score() {
 
 function update_level() {
     $("#level-display").text(level);
+}
+
+function show_end_game(){
+    $("")
 }
 
 
@@ -255,6 +281,8 @@ or just a call to destroyLink(link,difficulty);
     // GAME SHANINIGANS
     level = 1;
     generate_game_board('.game-board', 'start');
+    update_level();
+
 
 
 
