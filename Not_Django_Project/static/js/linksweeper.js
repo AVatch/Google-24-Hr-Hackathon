@@ -249,7 +249,7 @@ or just a call to destroyLink(link,difficulty);
 
 */
 
-console.log(readText('static/text/woah.txt'));
+//console.log(readText('static/text/woah.txt'));
 
 
     // GAME SHANINIGANS

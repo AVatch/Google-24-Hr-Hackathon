@@ -223,24 +223,30 @@ function subtractAddLetter(link,difficulty) {
         invalid:false
     }
 }
-function shuffleLetters(link,difficulty) {
+function shuffleLetters(link,difficulty) { 
     var n = randomInt(0,link.length);
-    if (link[n-1] != link[n]) {
-        link = link.substr(0,n)+link[n]+link[n-1]+link.substr(n+1);
-    } else if (link[n+1] != link[n]) {
-        link = link.substr(0,n)+link[n+1]+link[n]+link.substr(n-2);
+    var index,invalid;
+    if (link[n-1] != link[n] && isAlpha(link[n]) && isAlpha(link[n-1])) {
+        link = link.substr(0,n-1)+link[n]+link[n-1]+link.substr(n+1);
+        invalid = true;
+        index = n;
+    } else if (link[n+1] != link[n] && isAlpha(link[n]) && isAlpha(link[n+1])) {
+        link = link.substr(0,n)+link[n+1]+link[n]+link.substr(n+2);
+        invalid = false;
+        index = n;
     } else {
         index = -1;
         invalid = true;
         for (n_i=n,n=n+1; n!=n_i;n=(n+1)%n){
-            if (link[n] != link[n+1]) {
-                link = link.substr(0,n)+link[n+1]+link[n]+link.substr(n+1);
+            if (link[n] != link[n+1] && isAlpha(link[n]) && isAlpha(link[n+1])) {
+                link = link.substr(0,n)+link[n+1]+link[n]+link.substr(n+2);
                 pos = n;
                 invalid = false;
                 break;
             }
         }
     }
+    console.log("3 " + link);
     return {
         link:link,
         pos:index,
@@ -250,6 +256,9 @@ function shuffleLetters(link,difficulty) {
 
 
 /* Helper Methods */
+function isAlpha(c) {
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');  
+}
 function tanh(x) {
     // e^x - e^-x / e^x + e^-x
     return (Math.exp(2*x) - 1)/(Math.exp(2*x) + 1);
