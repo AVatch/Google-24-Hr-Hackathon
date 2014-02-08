@@ -19,7 +19,7 @@ function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
         var grid_x = 3,grid_y=3,i,j;
         window.game_links = new Object();
-        var game_board_html =  "<table style='width:100%;'>";
+        var game_board_html =  "<table style='width:100%; margin-left:20%;'>";
         for (i = 0; i < grid_y; i++) {
             game_board_html += "<tr>";
             for (j = 0; j <grid_x; j++) {
@@ -148,22 +148,6 @@ function verify(elm) {
         translate_choice_to_human_lang = false; // RED
     }
     var mask = elm.next('.mask');
-<<<<<<< HEAD
-    mask.css({
-        'opacity':'0',
-        'display':'block'
-    });
-    mask.animate({opacity:0.95},500,function() {
-        if(translate_choice_to_human_lang == window.game_links[link].value){
-            mask.children('.mask-msg').text('Correct!').css('color','green');
-            game_score += 1;
-        }else{
-            mask.children('.mask-msg').text('Wrong!').css('color','red');
-            game_score -= 1;
-        }
-        update_score();
-    });
-=======
     mask.css('display','block');
     if(translate_choice_to_human_lang == window.game_links[link].value){
         mask.children('.mask-msg').text('Correct!').css('color','green');
@@ -182,7 +166,6 @@ function verify(elm) {
         game_score -= 1;
     }
     update_score();
->>>>>>> 0f50bc7519e338c8642df2ae3aebca0fc1e57b44
 }
 function update_score() {
     $("#score").text(game_score);
