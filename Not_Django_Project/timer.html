@@ -1,0 +1,240 @@
+<html>
+<head>
+
+<style type="text/css">
+body{
+         background:#202020;
+         font:bold 12px Arial, Helvetica, sans-serif;
+         margin:0;
+         padding:0;
+         min-width:960px;
+         color:#bbbbbb;
+}
+
+a {
+        text-decoration:none;
+        color:#00c6ff;
+}
+
+h1 {
+        font: 4em normal Arial, Helvetica, sans-serif;
+        padding: 20px;  margin: 0;
+        text-align:center;
+}
+
+h1 small{
+        font: 0.2em normal  Arial, Helvetica, sans-serif;
+        text-transform:uppercase; letter-spacing: 0.2em; line-height: 5em;
+        display: block;
+}
+
+h2 {
+    font-weight:700;
+    color:#bbb;
+    font-size:20px;
+}
+
+h2, p {
+        margin-bottom:10px;
+}
+
+@font-face {
+    font-family: 'BebasNeueRegular';
+    src: url('BebasNeue-webfont.eot');
+    src: url('BebasNeue-webfont.eot?#iefix') format('embedded-opentype'),
+         url('BebasNeue-webfont.woff') format('woff'),
+         url('BebasNeue-webfont.ttf') format('truetype'),
+         url('BebasNeue-webfont.svg#BebasNeueRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.container {width: 960px; margin: 0 auto; overflow: hidden;}
+
+.clock {width:800px; margin:0 auto; padding:30px; border:1px solid #333; color:#fff; }
+
+#Date { font-family:'BebasNeueRegular', Arial, Helvetica, sans-serif; font-size:36px; text-align:center; text-shadow:0 0 5px #00c6ff; }
+
+ul { width:800px; margin:0 auto; padding:0px; list-style:none;  }
+ul li { position: absolute; clear: both;display:inline; min-width: 200px; width: 200px; font-size:10em; text-align:center; font-family:'BebasNeueRegular', Arial, Helvetica, sans-serif; text-shadow:0 0 5px #00c6ff; }
+.timer-min {
+	top:15%;
+	left: 32.5%;
+}
+
+.timer-left{
+	left:40%
+}
+.timer-sec {
+	top:15%;
+	left:45%
+}
+
+.timer-right {
+	left:52%
+}
+.timer-mil {
+	top:15%;
+	left:58%
+}
+.explicit-width {
+	width: 200px;
+	max-width: 200px;
+	min-width:200px;
+}
+
+#point { position:relative; -moz-animation:mymove 1s ease infinite; -webkit-animation:mymove 1s ease infinite; padding-left:10px; padding-right:10px; }
+
+@-webkit-keyframes mymove
+{
+0% {opacity:1.0; text-shadow:0 0 20px #00c6ff;}
+50% {opacity:0; text-shadow:none; }
+100% {opacity:1.0; text-shadow:0 0 20px #00c6ff; }
+}
+
+</script>
+<link rel="canonical" href="http://www.alessioatzeni.com/wp-content/tutorials/jquery/CSS3-digital-clock/index.html" />
+z-keyframes mymove
+{
+0% {opacity:1.0; text-shadow:0 0 20px #00c6ff;}
+50% {opacity:0; text-shadow:none; }
+100% {opacity:1.0; text-shadow:0 0 20px #00c6ff; }
+}
+li {
+width:150px;
+}
+</style>
+
+
+<link rel="canonical" href="http://www.alessioatzeni.com/wp-content/tutorials/jquery/CSS3-digital-clock/index.html" />
+<title>This is a stupid test page</title>
+</head>
+
+<body>
+<div id="digiclock"></div>
+<form>
+    Minutes:
+    <input type="text" id="mns" name="mns" value="1" size="3" maxlength="3" />&nbsp; &nbsp; 
+    Seconds:
+    <input type="text" id="scs" name="scs" value="0" size="2" maxlength="2" />&nbsp; &nbsp; 
+    Milliseconds:
+    <input type="text" id="mil" name="mil" value="0" size="2" maxlength="2" />
+    <br/>
+    <input type="button" id="btnct" value="Add / Start" />
+    <input type="button" id="btnct2" value="Subtract" />
+</form>
+<!--</form>Countdown Timer: &nbsp; <span id="showmns">00</span>:<span id="showscs">00</span>:<span id="showmil">0</span>
+-->
+ <div class="container">
+ <div class="clock">
+ <div id="Date"></div>
+ 
+ <ul>
+     <li id="showmns" class="timer-min">00</li>
+     <li id="point" class="timer-left" >:</li>
+     <li id="showscs" class="timer-sec">00</li>
+     <li id="point" class="timer-right">:</li>
+     <li id="showmil" class="timer-mil">0.0</li> 
+ </ul>
+
+ </div>
+ </div>
+
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+<script type="text/javascript">
+
+var mns = document.getElementById('mns');
+var scs = document.getElementById('scs');
+var mil = document.getElementById('mil');
+var btcnt = document.getElementById('btnct');
+var btcnt2 = document.getElementById('btnct2');
+var showmns = document.getElementById('showmns');
+var showscs = document.getElementById('showscs');
+var showmil = document.getElementById('showmil');
+var showall = document.getElementById('show-all');
+
+var pause=0;
+var stopped=0;
+
+var SEC = 1000,
+MIN = 60*1000,
+WAIT_PERIOD = 10;
+
+var count = 0;
+function pad1(n) {
+    return ("" +n).length > 2 ? ""+n : "0"+n;
+}
+function pad2(n) {
+    return n < 10 ? '0' + n : n;
+}
+
+function show() {
+    var s = Math.floor(count/SEC)%60;
+    var m = Math.floor(count/MIN);
+    var ml = count % 1000 / 100;
+    showmns.innerHTML = pad2(m);
+    showscs.innerHTML = pad2(s);
+    showmil.innerHTML = pad1(ml);
+}
+
+function timer() {
+    show();
+    if (count > 0) {
+	setTimeout(timer, WAIT_PERIOD);
+	count += -WAIT_PERIOD
+    } else {
+     setTimeout(timer, WAIT_PERIOD);
+	count = 0;
+}
+}
+
+btcnt.addEventListener('click', function () {
+    var s = parseInt(scs.value, 10);
+    var m = parseInt(mns.value, 10);
+    var ml = parseInt(mil.value, 10);
+    if (isNaN(ml) || isNaN(s) || isNaN(m)) return;
+    scs.value = s;
+    mns.value = m;
+    mil.value = ml;
+ 
+    var current = count;
+    count += (m*60*1000) + (s*1000) + ml;
+    
+    // only restart the counter loop if it was previously stopped
+    if (current <= 0) {
+        timer();
+    } else {
+        show();
+    }
+});
+
+btcnt2.addEventListener('click', function () {
+    var s = parseInt(scs.value, 10);
+    var m = parseInt(mns.value, 10);
+    var ml = parseInt(mil.value, 10);
+    if (isNaN(ml) || isNaN(s) || isNaN(m)) return;
+    scs.value = s;
+    mns.value = m;
+    mil.value = ml;
+ 
+    var current = count;
+    count -= (m*60*1000) + (s*1000) + ml;
+    
+    // only restart the counter loop if it was previously stopped
+    if (current <= 0) {
+        timer();
+    } else {
+        show();
+    }
+});
+
+
+</script>
+
+<h1>Shitty test page</h1>
+
+</body>
+
+</html>
