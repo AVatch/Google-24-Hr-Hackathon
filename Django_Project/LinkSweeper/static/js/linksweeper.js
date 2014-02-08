@@ -17,6 +17,7 @@ r_text[6] = "California dreaming, On such a winter's day";
 
 function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
+        window.game_links = new Object();
         var game_board_html =  " "+
             "<table style='width:100%;'>"+
                     "<tr>" +
@@ -97,6 +98,7 @@ function generate_game_board(parent_div, level_type){
             $(this).generate();
             game_links_left++;
         });
+        update_score();
     }
 }
 
@@ -137,11 +139,9 @@ function play_game(){
 
                 if( relX < initX){
                     $(this).parent().css('background-color' , 'red');
-
                 }
-                if( relX > initX){
+                else if( relX > initX){
                     $(this).parent().css('background-color' , 'green');
-
                 }
             },
 
@@ -150,13 +150,49 @@ function play_game(){
 
                 // get the link in the box
                 // check if correct
-                verify($(this).text());
+                verify($(this).text(),$(this).parent().css("background-color"));
                 // update score mark as correct or not
-
                 console.log('Links left' + game_links_left);
                 validate_game();
             }
         });
+}
+
+function verify(link,choice) {
+    console.log(link + " Choice: " + choice + " " + window.game_links[link].value);
+    var translate_choice_to_human_lang;
+    if(choice == "rgb(0, 128, 0)"){
+        translate_choice_to_human_lang = true; // GREEN
+    }else if(choice == "rgb(255, 0, 0)"){
+        translate_choice_to_human_lang = false; // RED
+    }
+  
+    if(translate_choice_to_human_lang == window.game_links[link].value){
+        console.log('CORRECT');
+        game_score += 1;
+    }else{
+        console.log('INCORRECT');
+        game_score -= 1;
+    }
+
+    console.log('VALUE: ' + window.game_links[link].value + ' CHOICE: ' + translate_choice_to_human_lang);
+
+
+    // if (window.game_links[link].value && "rgb(0, 128, 0)" === choice) {
+    //     game_score -= 1;
+    // } 
+    // else if (window.game_links[link].value && "rgb(255, 0, 0)" === choice) {
+    //     game_score -= 1;
+    // } else {
+    //     game_score += 1;
+    // }
+
+    console.log(window.game_links[link].value);
+
+    update_score();
+}
+function update_score() {
+    $("#score").text(game_score);
 }
 
 $(document).ready(function() {

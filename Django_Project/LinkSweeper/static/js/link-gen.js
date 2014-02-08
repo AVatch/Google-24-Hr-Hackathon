@@ -25,7 +25,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Global Variables */
-var probability = 0.1;
+var probability = 0.5;
 var swaps = {
     ":":[";"],
     "/":["\\"],
@@ -85,8 +85,8 @@ var swaps = {
 
 
 /* Main Generation Function */
-function getLink(difficulty) { 
-    return "http://www.google.com";
+function getLink(level) { 
+    return destroyLink("http://www.google.com",level);
 }
 
 /* Main Link Destruction Function */
@@ -171,16 +171,17 @@ function random() {
 function randomInt(min,max) {
     return Math.floor(min + max*random()); 
 }
-
+$(window).ready(function () {
+    window.game_links = new Object();
+});
 /* jQuery wrapper */
 $.fn.generate = function() {
-    var link = getLink(0);
-    var link_info = destroyLink(link,levelToDifficulty(0));
-    $(this).text(link_info.link + " " + link_info.value ); 
+    var link_info = getLink(window.level);
+    $(this).text(link_info.link); 
     window.game_links[link_info.link] = {
         value:link_info.value,
         type:link_info.type
     };
-}
+};
 
 
