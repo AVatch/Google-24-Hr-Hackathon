@@ -27,48 +27,38 @@
 {% block content %}
 
 <div class="row">
-	<div class="col-md-8" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 5px;">
-		<h3>How long can you last?</h3>
-		<p>Current Score: <span id="score"></span> points</p>
-		<p><strong>Rules:</strong> Drag to the <strong style='color:red;'>left</strong> for <strong>Insercure</strong> link, Drag to the <strong  style='color:green;'>right</strong> for <strong>Secure</strong> link</p> 
-<!-- 
-		<div class="row">
-			<div class="col-md-8">
 
-				<div class="link-container center">
+<div id="game-container" class="col-md-8" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 10px;">
 
-						<div class="link" style="">
-							<p class="link-styler" style="background-color: white;">www.dubiouslink.com</p>
-						</div>
-
+            <div style="position: relative;">
+                <div style="float:left;">
+                    <h3>Current Score: <span id="score"></span> points</h3>
+                </div>
+                <div style="float: left;">
+                    <h3>Time: <span id="timer-min">0</span>:<span id="timer-sec">00</span>:<span id="timer-mil">0.0</span></h3>
+                </div>
+                <div style="float:right;">
+                    <h3>Level <span id="level-display"></span></h3>
+                </div>
+            </div>
+            <div class="row" style="clear: both;">
+                <p style="margin-left: 5%;">
+                    <strong>Rules:</strong> Drag to the <strong style='color:red;'>left</strong> for <strong>Insecure</strong> link, Drag to the <strong  style='color:green;'>right</strong> for <strong>Secure</strong> link.
+                </p>
+            </div>
+            <br>
+			<div class="row">
+				<div class="col-md-8 game-board">
 				</div>
-
-
 			</div>
-		</div> 
--->
-
-
-		<div class="row">
-			<div class="col-md-8 game-board">
-
+			<div class="row">
+				<div id="info" class="col-md-8" style="display: none;">
+					<p>DONE</p> 
+					<a id="Refresh_Game" class="Refresh_Game btn btn-primary" type="button">Play Again</a>
+				</div>
 			</div>
+
 		</div>
-
-		<div class="row">
-			<div id="info" class="col-md-8" style="display: none;">
-				<p>DONE</p> 
-				<a id="Refresh_Game" class="Refresh_Game btn btn-primary" type="button">Play Again</a>
-			</div>
-		</div>
-
-		<div class="row">
-			<div id="error-report" class="col-md-8" style="display: none;">
-				
-			</div>
-		</div>
-
-	</div>
 
 	<div class="col-md-3 col-md-offset-1" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 5px;">
 		
@@ -88,8 +78,6 @@
 		</div>
 
 	
-
-
 		<div class="row" >
 			<div class="col-md-10 col-md-offset-1">
 				<h4 style="display: inline;">Score (Top 25)</h4>
@@ -119,6 +107,31 @@
 
 
 	</div>
+
+	<div class="col-md-12"  style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 10px;">
+			<h3>Progress</h3>
+
+
+
+			<table class="table table-hover">
+		      <thead>
+		        <tr>
+		          <th>#</th>
+		          <th>Link</th>
+		          <th>Your Choice</th>
+		          <th>Answer</th>
+		          <th>Right / Total</th>
+		        </tr>
+		      </thead>
+
+		      	<tbody id="error-report">
+
+
+		      	</tbody>
+		 	</table>
+
+		</div>
+
 </div>
 
 {% endblock %}

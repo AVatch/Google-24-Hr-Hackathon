@@ -1,9 +1,9 @@
-{% load staticfiles %}
-
 body {
   padding-top: 50px;
-
-  background: url("/static/img/graphy/graphy.png");
+  background: url("static/img/graphy/graphy.png");
+}
+#game-container {
+    min-height: 40%;
 }
 .starter-template {
   padding: 40px 15px;
@@ -20,6 +20,7 @@ body {
 .link-container{
 	width: 250px;
 	border: 1px solid;
+    margin-bottom:2%;
     position: relative;
 }
 .link {
@@ -38,28 +39,18 @@ body {
     top: 0px;
     left: 0px;
     background-color: rgb(0,0,0);
-    opacity: 0.0;
+    opacity: 0.8;
     width: 100%;
     height: 100%;
     display: none;
     overflow: hidden;
     max-height:100%;
 }
-.mask-show {
-    transition-property: font-size;
-    transition-duration: 4s;
-    transition-delay: 0.5s;
-    opacity: 0.8;
-}
 .mask-msg {
-    font-size: 200%;
-    font-style: bold;
+    position: absolute;
+    left: 40%;
+    max-height:100%;
+    max-width:100%;
     opacity: 1;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
