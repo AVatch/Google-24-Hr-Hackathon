@@ -85,6 +85,7 @@ var swaps = {
 
 
 var link_set = [
+
     'http://www.google.com',
     'http://www.facebook.com',
     'http://www.youtube.com',
