@@ -140,8 +140,7 @@ function play_game(){
                 var relX = e.pageX - (parentOffset.left+width/2);
                 var relY = e.pageY - parentOffset.top;
                 
-                
-                
+                            
                 if(flag){
                     initX = relX;
                     initY = relY;
@@ -150,19 +149,19 @@ function play_game(){
                 var val;
                 console.log(relX + " " + initX);
                 if( relX < initX ){
-                    if (Math.abs(relX) > red_max ) {
-                        val = 0; 
+                    if (Math.abs(relX) > (width-$(this).width())/2 ) {
+                        val = 0;
                     } else {
-                        val = 255-Math.abs(relX)/(width/2)*255;
+                        val = 255*(1-Math.abs(relX)/((width-$(this).width())/2));
                     }
                     val = Math.floor(val);
                     $(this).parent().css("background-color","rgb("+red_max+","+val+","+val+")");
                 }
                 else if( relX > initX){
-                    if (Math.abs(relX) > green_max ) {
+                    if (Math.abs(relX) > (width-$(this).width())/2 ) {
                         val = 0;
                     } else {
-                        val = 255-Math.abs(relX)/(width/2)*255;
+                        val = 255*(1-Math.abs(relX)/((width-$(this).width())/2));
                     }
                     val = Math.floor(val);
                     if (val > green_max) {
