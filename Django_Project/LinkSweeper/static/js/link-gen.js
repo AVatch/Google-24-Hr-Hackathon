@@ -116,7 +116,7 @@ function destroyLink(link,level) {
             case 2:
                 link_info = subtractAddLetter(link,diff);
                 if (link_info.invalid) break;
-                link = link_info;
+                link = link_info.link;
                 pos = link_info.pos;
                 value = false;
                 type = "subtract_add";

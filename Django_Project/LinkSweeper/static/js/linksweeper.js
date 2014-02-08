@@ -157,8 +157,9 @@ function verify(elm) {
         translate_choice_to_human_lang = false; // RED
     }
     var mask;
+    console.log(elm);
     if(translate_choice_to_human_lang == window.game_links[link].value){
-        mask = elm.next();
+        mask = elm.next('.mask');
         console.log("mask");
         console.log(mask);
         mask.css({
@@ -168,7 +169,7 @@ function verify(elm) {
         mask.children('mask-msg').text('Correct!');
         game_score += 1;
     }else{
-        mask = elm.next();
+        mask = elm.next('.mask');
         mask.css({
             'display':'block',
             'color':'red',
