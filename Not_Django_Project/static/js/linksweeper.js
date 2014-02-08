@@ -19,7 +19,7 @@ function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
         var grid_x = 3,grid_y=3,i,j;
         window.game_links = new Object();
-        var game_board_html =  "<table style='width:100%;'>";
+        var game_board_html =  "<table style='width:100%; margin-left:20%;'>";
         for (i = 0; i < grid_y; i++) {
             game_board_html += "<tr>";
             for (j = 0; j <grid_x; j++) {
