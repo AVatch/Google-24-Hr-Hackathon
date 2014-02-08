@@ -169,7 +169,7 @@ function destroyLink(link,level) {
                 type = "subtract_add";
                 break;
             case 3:
-                link_info = shuffleLetter(link,diff);
+                link_info = shuffleLetters(link,diff);
                 if (link_info.invalid) break;
                 link = link_info.link;
                 pos = link_info.pos;
@@ -223,7 +223,7 @@ function subtractAddLetter(link,difficulty) {
         invalid:false
     }
 }
-function shuffleletters(link,difficulty) {
+function shuffleLetters(link,difficulty) {
     var n = randomInt(0,link.length);
     if (link[n-1] != link[n]) {
         link = link.substr(0,n)+link[n]+link[n-1]+link.substr(n+1);
