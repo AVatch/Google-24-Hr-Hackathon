@@ -8,7 +8,15 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "LinkSweeper.settings")
+import socket
+
+
+if socket.gethostname() == "web425.webfaction.com":
+	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "LinkSweeper.settings_deploy")
+else:
+	os.environ.setdefault("DJANGO_SETTINGS_MODULE", "LinkSweeper.settings")
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "LinkSweeper.settings_deploy")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

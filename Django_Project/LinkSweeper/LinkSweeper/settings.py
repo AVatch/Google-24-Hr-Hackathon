@@ -11,10 +11,16 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
+
+ADMINS = (
+	('Joe Yuan','joe@joeyuan.com'),
+)
+
+MANAGERS = ADMINS
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '@c!&8tp1t&$z-rwg7y%!#@net7n9a0zp!ye*0hvi6lt$!$q2u0'
@@ -41,6 +47,8 @@ INSTALLED_APPS = (
 
     'players',
 )
+
+BACKEND = "django.core.cache.backends.memcached.MemcachedCache"
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -69,6 +77,8 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
+SITE_ID = 1
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'America/New_York'
@@ -83,11 +93,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
+MEDIA_ROOT = PROJECT_ROOT+'/uploads/' 
+MEDIA_URL = PROJECT_ROOT+'/media/' 
+
+STATIC_ROOT = PROJECT_ROOT+'/assets/'
+STATIC_URL = PROJECT_ROOT+'/static/'
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, "static"),
+	PROJECT_ROOT + '/static/',
+)
+STATICFILES_FINDERS = (
+     'django.contrib.staticfiles.finders.FileSystemFinder',
+     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, "templates"),
+TEMPLATE_LOADERS = (
+     'django.template.loaders.filesystem.Loader',
+     'django.template.loaders.app_directories.Loader',
+      'django.template.loaders.eggs.Loader',
 )
+TEMPLATE_DIRS = (
+	PROJECT_ROOT+'/templates/',  
+)
+TEMPLATE_CONTEXT_PROCESSORS = ("django.contrib.auth.context_processors.auth",
+                                "django.core.context_processors.debug",
+                                "django.core.context_processors.in",
+                                "django.core.context_processors.media",
+                                "django.core.context_processors.static",
+                                "django.core.context_processors.request",
+                                "django.contrib.messages.context_processors.messages",
+)
+
