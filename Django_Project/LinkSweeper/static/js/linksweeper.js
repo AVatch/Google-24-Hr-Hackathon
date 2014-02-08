@@ -194,7 +194,7 @@ function play_game(){
                     $(this).parent().css('background-color' , 'rgb(255,0,0)');
                 }
                 else if( relX > initX){
-                    $(this).parent().css('background-color' , 'rgb(0,255,0)');
+                    $(this).parent().css('background-color' , 'rgb(0,128,0)');
                 }
 
                 // get the link in the box
