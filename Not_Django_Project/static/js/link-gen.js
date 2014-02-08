@@ -246,7 +246,6 @@ function shuffleLetters(link,difficulty) {
             }
         }
     }
-    console.log("3 " + link);
     return {
         link:link,
         pos:index,
