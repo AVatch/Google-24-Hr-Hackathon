@@ -148,23 +148,27 @@ function verify(elm) {
         translate_choice_to_human_lang = false; // RED
     }
     var mask = elm.next('.mask');
-    mask.css('display','block');
-    if(translate_choice_to_human_lang == window.game_links[link].value){
-        mask.children('.mask-msg').text('Correct!').css('color','green');
-        game_score += 1;
-    }else{
-        console.log('INCORRECT');
-        // report_error(window.game_links[link]);
-        
-        var chance;
-        chance = Math.random()*100;
-        if(chance >= 90){
-            console.log('OHHHHNOOESS');
+    mask.css({
+        'display':'block',
+        'opacity':'0',
+    });
+    mask.animate({opacity:0.95},function() {
+        if ( translate_choice_to_human_lang == window.game_links[link].value ) {
+            mask.children('.mask-msg').text('Correct!').css('color','green');
+            game_score += 1;
+        } else {
+            console.log('INCORRECT');
+            // report_error(window.game_links[link]);
+            var chance;
+            chance = Math.random()*100;
+            if(chance >= 90){
+                console.log('OHHHHNOOESS');
             $( "#trigger-hell" ).trigger( "click" );
+            }
+            mask.children('.mask-msg').text('Wrong!').css('color','red');
+            game_score -= 1;
         }
-        mask.children('.mask-msg').text('Wrong!').css('color','red');
-        game_score -= 1;
-    }
+    });
     update_score();
 }
 function update_score() {
