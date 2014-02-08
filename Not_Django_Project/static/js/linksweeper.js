@@ -19,6 +19,7 @@ r_text[6] = "California dreaming, On such a winter's day";
 
 function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
+        //startTimer(30); 
         var grid_x = 3,grid_y=3,i,j;
         window.game_links = new Object();
         var game_board_html =  "<table style='width:100%; margin-left:20%;'>";
@@ -44,7 +45,12 @@ function generate_game_board(parent_div, level_type){
         });
         update_score();
     } else if (level_type=='start') {
-        var start_html = "<div>";
+        var start_html = "<div style=''>";
+        start_html += "<button onclick='generate_game_board(";
+        start_html += '".game-board","grid"';
+        start_html += ")'>Start</button>";
+        start_html += "</div>";
+        $(parent_div).html( start_html );
     }
 }
 
@@ -235,7 +241,7 @@ or just a call to destroyLink(link,difficulty);
 
     // GAME SHANINIGANS
 
-    generate_game_board('.game-board', 'grid');
+    generate_game_board('.game-board', 'start');
     console.log('Total Num of Links: '+ game_links_left);
 
     play_game();
