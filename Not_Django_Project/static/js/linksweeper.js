@@ -43,6 +43,8 @@ function generate_game_board(parent_div, level_type){
             game_links_left++;
         });
         update_score();
+    } else if (level_type=='start') {
+        var start_html = "";
     }
 }
 
@@ -233,7 +235,7 @@ or just a call to destroyLink(link,difficulty);
 
     // GAME SHANINIGANS
 
-    generate_game_board('.game-board', 'grid');
+    generate_game_board('.game-board', 'start');
     console.log('Total Num of Links: '+ game_links_left);
 
     play_game();
