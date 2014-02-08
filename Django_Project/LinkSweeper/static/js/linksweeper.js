@@ -126,11 +126,50 @@ function play_game(){
             revert: true,
 
             drag: function(e) {
+                var red_max = 255, green_max = 128;
+                var parentOffset = $(this).parent().offset(); 
+                var width = $(this).parent().width();
+                var relX = e.pageX - parentOffset.left;
+                var relY = e.pageY - parentOffset.top;
+                
+                
+                
+                if(flag){
+                    initX = relX;
+                    initY = relY;
+                    flag = false;
+                }
+                var val;
+                if( relX < initX ){
+                    if (Math.abs(relX) > red_max ) {
+                        val = red_max;
+                    } else {
+                        val = red_max-Math.abs(relX)/(width/2)*red_max;
+                    }
+                    val = Math.floor(val);
+                    console.log("rgb("+val+",0,0)");
+                    $(this).parent().css("background-color","rgb("+val+",0,0)");
+                }
+                else if( relX > initX){
+                    if (Math.abs(relX) > green_max ) {
+                        val = green_max;
+                    } else {
+                        val = green_max-Math.abs(relX)/(width/2)*green_max;
+                    }
+                    val = Math.floor(val);
+                    console.log("rgb(0,"+val+",0)");
+                    $(this).parent().css("background-color","rgb(0,"+val+",0)");   
+                }
+            },
 
+            stop: function(e){
+                game_links_left -- ;
                 var parentOffset = $(this).parent().offset(); 
                 var relX = e.pageX - parentOffset.left;
                 var relY = e.pageY - parentOffset.top;
-
+                
+                
+                
                 if(flag){
                     initX = relX;
                     initY = relY;
@@ -143,10 +182,6 @@ function play_game(){
                 else if( relX > initX){
                     $(this).parent().css('background-color' , 'green');
                 }
-            },
-
-            stop: function(e){
-                game_links_left -- ;
 
                 // get the link in the box
                 // check if correct
