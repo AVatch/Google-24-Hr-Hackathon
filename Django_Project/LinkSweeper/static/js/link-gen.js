@@ -28,7 +28,8 @@
 
 
 /* Main Generation Function */
-function generateLink(level,probability_threshold) {
+function generateLink(level) {
+    return "test";
 }
 
 /* Individual Link Destruction Algorithms */
@@ -44,8 +45,7 @@ function levelToDifficulty(level) {
 
 /* jQuery wrapper */
 $.fn.generate = function() {
-    var difficulty = window.difficulty;
-    var link = generateLink(difficulty);
+    var link = generateLink(0);
     $(this).text(link); 
 }
 

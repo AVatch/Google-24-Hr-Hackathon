@@ -1,0 +1,19 @@
+{% load staticfiles %}
+<html>
+    <head>
+        <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/link-gen.js' %}"></script>
+    </head>
+    <body>
+        <h1>Link Generator Test</h1>
+        <p>
+            This is a bunch of placeholder text with a link in it.<br>
+            <span class='link'></span><br>
+            Do you think it's fake?<br>
+            <button onclick="$(.link).generate()">New Link</button><button onclick="checkResponse(true);">Yes</button><button onclick="checkResponse(false);">No</button>
+        </p>
+    </body>
+</html>
+
+
+
