@@ -17,82 +17,24 @@ r_text[6] = "California dreaming, On such a winter's day";
 
 function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
+        var grid_x = 3,grid_y=10,i,j;
         window.game_links = new Object();
-        var game_board_html =  " "+
-            "<table style='width:100%;'>"+
-                    "<tr>" +
-                      "<td>" +
+        var game_board_html =  "<table style='width:100%;'>";
+        for (i = 0; i < grid_y; i++) {
+            game_board_html += "<tr>";
+            for (j = 0; j <grid_x; j++) {
+                game_board_html += "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
                                     "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
+                                "<div class='mask center'><span class='mask-msg'></span></div>"+
                             "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                    "</tr>" +
-
-                    "<tr>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                    "</tr>" +
-
-                    "<tr>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                      "<td>" +
-                            "<div class='link-container center'>" +
-                                "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'></p>" +
-                                "</div>" +
-                            "</div>" +
-                      "</td>" +
-                    "</tr>" +
-                "</table>";
-
+                      "</td>";
+            }
+            game_board_html += "</tr>";
+        }
+        game_board_html +="</table>";
         $(parent_div).html( game_board_html );
         $('.link-styler').each(function() {
             $(this).generate();
@@ -104,6 +46,7 @@ function generate_game_board(parent_div, level_type){
 
 function clean_board(parent_div){
     $(parent_div).empty();
+    $('.mask').css('display','none');
 }
 
 function validate_game(){
@@ -134,34 +77,32 @@ function play_game(){
             revert: true,
 
             drag: function(e) {
+                /* Max for colors */
                 var red_max = 255, green_max = 128;
-                var parentOffset = $(this).parent().offset(); 
-                var width = $(this).parent().width();
-                var relX = e.pageX - (parentOffset.left+width/2);
-                var relY = e.pageY - parentOffset.top;
-                
-                            
-                if(flag){
-                    initX = relX;
-                    initY = relY;
-                    flag = false;
-                }
+                /* Dimensions for self */
+                var width = $(this).width();
+                var center = $(this).offset().left + width/2;
+                /* Dimensions for parents */
+                var parentWidth = $(this).parent().width();
+                var parentCenter = $(this).parent().offset().left + parentWidth/2;
+                /* Space between URL */
+                var diff = (parentWidth-width)/2;
+                var relX = center - parentCenter,
+                    relY = 0;
                 var val;
-                console.log(relX + " " + initX);
-                if( relX < initX ){
-                    if (Math.abs(relX) > (width-$(this).width())/2 ) {
+                if( relX < 0 ){
+                    if (Math.abs(relX) > diff) {
                         val = 0;
                     } else {
-                        val = 255*(1-Math.abs(relX)/((width-$(this).width())/2));
+                        val = 255*(1-Math.abs(relX)/(diff/2));
                     }
                     val = Math.floor(val);
                     $(this).parent().css("background-color","rgb("+red_max+","+val+","+val+")");
-                }
-                else if( relX > initX){
-                    if (Math.abs(relX) > (width-$(this).width())/2 ) {
+                } else { 
+                    if (Math.abs(relX) > diff ) {
                         val = 0;
                     } else {
-                        val = 255*(1-Math.abs(relX)/((width-$(this).width())/2));
+                        val = 255*(1-Math.abs(relX)/(diff/2));
                     }
                     val = Math.floor(val);
                     if (val > green_max) {
@@ -169,56 +110,46 @@ function play_game(){
                     } else {
                         green_val = green_max;
                     }
-                    console.log("rgb(0,"+val+",0)");
                     $(this).parent().css("background-color","rgb("+val+","+green_val+","+val+")");   
                 }
             },
 
             stop: function(e){
-                game_links_left -- ;
-                var parentOffset = $(this).parent().offset();
-                var w = $(this).parent().width();
-                var relX = e.pageX - (parentOffset.left+w/2);
-                var relY = e.pageY - parentOffset.top;
-                
-                
-                
-                if(flag){
-                    initX = relX;
-                    initY = relY;
-                    flag = false;
-                }
-
-                if( relX < initX){
+                /* Dimensions for parents */
+                var parentWidth = $(this).parent().width();
+                var parentCenter = $(this).parent().offset().left + parentWidth/2;
+                if( e.pageX < parentCenter){
                     $(this).parent().css('background-color' , 'rgb(255,0,0)');
                 }
-                else if( relX > initX){
+                else {
                     $(this).parent().css('background-color' , 'rgb(0,128,0)');
                 }
-
                 // get the link in the box
                 // check if correct
-                verify($(this).text(),$(this).parent().css("background-color"));
+                verify($(this));
                 // update score mark as correct or not
+                game_links_left--;
                 console.log('Links left' + game_links_left);
                 validate_game();
             }
         });
 }
 
-function verify(link,choice) {
-    console.log(link + " Choice: " + choice + " " + window.game_links[link].value);
+function verify(elm) {
+    var link = elm.text(),choice = elm.parent().css("background-color");
     var translate_choice_to_human_lang;
     if(choice == "rgb(0, 128, 0)"){
         translate_choice_to_human_lang = true; // GREEN
     }else if(choice == "rgb(255, 0, 0)"){
         translate_choice_to_human_lang = false; // RED
     }
-  
+    var mask = elm.next('.mask');
+    mask.css('display','block');
     if(translate_choice_to_human_lang == window.game_links[link].value){
-        console.log('CORRECT');
+        mask.children('.mask-msg').text('Correct!').css('color','green');
         game_score += 1;
     }else{
+<<<<<<< HEAD
         console.log('INCORRECT');
         var chance;
         chance = Math.random()*100;
@@ -226,23 +157,11 @@ function verify(link,choice) {
             console.log('OHHHHNOOESS');
             $( "#trigger-hell" ).trigger( "click" );
         }
+=======
+        mask.children('.mask-msg').text('Wrong!').css('color','red');
+>>>>>>> a027440c9ed170a7a81793b42d01925b3eb7e7ac
         game_score -= 1;
     }
-
-    console.log('VALUE: ' + window.game_links[link].value + ' CHOICE: ' + translate_choice_to_human_lang);
-
-
-    // if (window.game_links[link].value && "rgb(0, 128, 0)" === choice) {
-    //     game_score -= 1;
-    // } 
-    // else if (window.game_links[link].value && "rgb(255, 0, 0)" === choice) {
-    //     game_score -= 1;
-    // } else {
-    //     game_score += 1;
-    // }
-
-    console.log(window.game_links[link].value);
-
     update_score();
 }
 function update_score() {
