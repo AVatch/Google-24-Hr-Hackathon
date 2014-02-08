@@ -30,7 +30,7 @@ function generate_game_board(parent_div, level_type){
                                 "<div class='link' style=''>" +
                                     "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
-                                "<div class='mask center'><span class='mask-msg'></span></div>"+
+                                "<div class='mask center'><img class='mask-msg' src=''></img></div>"+
                             "</div>" +
                       "</td>";
             }
@@ -174,7 +174,7 @@ function verify(elm) {
 
     mask.animate({opacity:0.95},function() {
         if ( translate_choice_to_human_lang == window.game_links[link_txt].value ) {
-            mask.children('.mask-msg').text('Correct!').css('color','green');
+            mask.children('.mask-msg').attr('src','static/img/check.png');
             game_score += 1000;
             report_error(link_txt, translate_choice_to_human_lang, translate_choice_to_human_lang ? "Safe" : "Unsafe");
         } else {
@@ -187,7 +187,7 @@ function verify(elm) {
             $( "#trigger-hell" ).trigger( "click" );
             }
 
-            mask.children('.mask-msg').text('Wrong!').css('color','red');
+            mask.children('.mask-msg').attr('src','static/img/ex.png');
             game_score -= 1000;
             report_error(link_txt, translate_choice_to_human_lang,translate_choice_to_human_lang ? "Unsafe" : "Safe");
         }
