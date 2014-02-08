@@ -12,6 +12,7 @@ def update_score(request):
 			
 			if curr_score > user_score:
 				user.score = curr_score
+				user.save()
 
 			msg = 'PASS'
 			ajax_response = json.dumps(msg)

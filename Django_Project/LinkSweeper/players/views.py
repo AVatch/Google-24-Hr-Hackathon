@@ -18,6 +18,9 @@ def game_view(request):
 
 	# Get list of users
 	list_of_users = Player.objects.all()
+	list_of_users = [i for i in list_of_users.order_by("-score")][:25]
+
+
 	callBackDict.update(list_of_users = list_of_users)
 
 	if 'login' in request.POST:
