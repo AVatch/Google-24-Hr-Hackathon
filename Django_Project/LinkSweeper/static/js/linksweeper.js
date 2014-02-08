@@ -1,7 +1,7 @@
 var game_score = 0;
 var game_cont = true;
 var game_links_left = 0;
-var game_lvl = 1;
+var game_lvl = 0;
 var tmplinks = ['aple', 'asas', 'asasa', 'dsfs', 'sfewf', 'fewfw', 'fwfwfw', 'rwefwf', 'wef23rfe', 'fwfwfw', 'rwefwf', 'wef23rfe'];
 
 
@@ -107,14 +107,14 @@ function clean_board(parent_div){
 }
 
 function validate_game(){
-    if(game_lvl >= 2){
-        console.log('DONE');
-        clean_board('.game-board');
-        $('.game-board').html('<p>DONE</p>');
-        update_score_push();
-        return;
-    }
     if(game_links_left == 0){
+        if(game_lvl >= 1){
+            console.log('DONE');
+            clean_board('.game-board');
+            $('.game-board').html('<p>DONE</p>');
+            update_score_push();
+            return;
+        }
         game_lvl += 1;
         clean_board('.game-board');
         generate_game_board('.game-board', 'grid');
