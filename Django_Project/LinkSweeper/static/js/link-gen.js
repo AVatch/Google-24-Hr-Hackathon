@@ -176,7 +176,7 @@ function randomInt(min,max) {
 $.fn.generate = function() {
     var link = getLink(0);
     var link_info = destroyLink(link,levelToDifficulty(0));
-    $(this).text(link_info.link + " " + link_info.value ); 
+    $(this).text(link_info.link); 
 }
 
 

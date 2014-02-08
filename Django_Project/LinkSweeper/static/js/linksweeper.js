@@ -17,37 +17,27 @@ r_text[6] = "California dreaming, On such a winter's day";
 
 function generate_game_board(parent_div, level_type){
     if(level_type=='grid'){
-
-        var links = [];
-        for (var i=0;i<9;i++){
-            var j = Math.floor(12*Math.random());
-            links.push(tmplinks[j]);
-            game_links_left ++;
-        }
-
-        var game_board_html;
-
-        game_board_html =  " "+
-        "<table style='width:100%;'>"+
+        var game_board_html =  " "+
+            "<table style='width:100%;'>"+
                     "<tr>" +
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[0] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[1] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[3] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
@@ -57,21 +47,21 @@ function generate_game_board(parent_div, level_type){
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[4] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[5] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[6] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
@@ -81,30 +71,32 @@ function generate_game_board(parent_div, level_type){
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[7] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[8] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
                       "<td>" +
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
-                                    "<p class='link-styler' style='background-color: white;'>"+ links[9] +"</p>" +
+                                    "<p class='link-styler' style='background-color: white;'></p>" +
                                 "</div>" +
                             "</div>" +
                       "</td>" +
                     "</tr>" +
-
                 "</table>";
 
         $(parent_div).html( game_board_html );
-
+        $('.link-styler').each(function() {
+            $(this).generate();
+            game_links_left++;
+        });
     }
 }
 
@@ -155,6 +147,12 @@ function play_game(){
 
             stop: function(e){
                 game_links_left -- ;
+
+                // get the link in the box
+                // check if correct
+                verify($(this).text());
+                // update score mark as correct or not
+
                 console.log('Links left' + game_links_left);
                 validate_game();
             }
@@ -176,16 +174,13 @@ or just a call to destroyLink(link,difficulty);
 */
 
 
+    // GAME SHANINIGANS
 
     generate_game_board('.game-board', 'grid');
     console.log('Total Num of Links: '+ game_links_left);
 
     play_game();
 
-    // Links
-    $(function() {
-
-    });
 
     // POPUP SHANIGANS
     $('#trigger-hell2').click(function(){
