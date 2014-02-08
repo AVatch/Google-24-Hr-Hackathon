@@ -57,15 +57,27 @@
 
 	<div class="row">
 		<div id="game-container" class="col-md-12" style="border: 1px solid; margin-top:10px; background-color: white; border-radius: 5px; padding: 10px;">
-            <h3>Current Score: <span id="score"></span> points</h3>
-            <h3>Time: <span id="timer-min">0</span>:<span id="timer-sec">00</span>:<span id="timer-mil">0.0</span></h3>
-			<p><strong>Rules:</strong> Drag to the <strong style='color:red;'>left</strong> for <strong>Insercure</strong> link, Drag to the <strong  style='color:green;'>right</strong> for <strong>Secure</strong> link</p> 
+            <div style="position: relative;">
+                <div style="float:left;">
+                    <h3>Current Score: <span id="score"></span> points</h3>
+                </div>
+                <div style="float: left;">
+                    <h3>Time: <span id="timer-min">0</span>:<span id="timer-sec">00</span>:<span id="timer-mil">0.0</span></h3>
+                </div>
+                <div style="float:right;">
+                    <h3>Level <span id="level-display"></span></h3>
+                </div>
+            </div>
+            <div class="row" style="clear: both;">
+                <p style="margin-left: 5%;">
+                    <strong>Rules:</strong> Drag to the <strong style='color:red;'>left</strong> for <strong>Insecure</strong> link, Drag to the <strong  style='color:green;'>right</strong> for <strong>Secure</strong> link.
+                </p>
+            </div>
+            <br>
 			<div class="row">
 				<div class="col-md-8 game-board">
-
 				</div>
 			</div>
-
 			<div class="row">
 				<div id="info" class="col-md-8" style="display: none;">
 					<p>DONE</p> 

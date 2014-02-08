@@ -1,7 +1,7 @@
 var game_score = 0;
 var game_cont = true;
 var game_links_left = 0;
-var game_lvl = 0;
+var game_level = 1;
 var tmplinks = ['aple', 'asas', 'asasa', 'dsfs', 'sfewf', 'fewfw', 'fwfwfw', 'rwefwf', 'wef23rfe', 'fwfwfw', 'rwefwf', 'wef23rfe'];
 
 var attmpts = 1;
@@ -40,9 +40,11 @@ function generate_game_board(parent_div, level_type){
         game_board_html +="</table>";
         $(parent_div).html( game_board_html );
         $('.link-styler').each(function() {
-            $(this).generate();
+            console.log(level);
+            $(this).generate(level);
             game_links_left++;
         });
+        play_game();
         update_score();
     } else if (level_type=='start') {
         var start_html = "<div style=''>";
@@ -61,14 +63,13 @@ function clean_board(parent_div){
 
 function validate_game(){
     if(game_links_left == 0){
-        if(game_lvl >= 1){
-            console.log('DONE');
+        if(level >= 3){
             clean_board('.game-board');
             $('#info').css('display','block');
             update_score_push();
             return;
         }
-        game_lvl += 1;
+        level += 1;
         clean_board('.game-board');
         generate_game_board('.game-board', 'grid');
         play_game();
@@ -139,14 +140,12 @@ function play_game(){
                 verify($(this));
                 // update score mark as correct or not
                 game_links_left--;
-                console.log('Links left' + game_links_left);
                 validate_game();
             }
         });
 }
 
 function report_error(link, user_ans, corr_ans){
-    console.log('link');
     var err_report;
     err_report += "<tr>" + "<td>"+ attmpts + "</td>" + "<td>"+ link +"</td>";
 
@@ -186,13 +185,11 @@ function verify(elm) {
             game_score += 1000;
             report_error(link_txt, translate_choice_to_human_lang, translate_choice_to_human_lang ? "Safe" : "Unsafe");
         } else {
-            console.log('INCORRECT');
 
             var chance;
             chance = Math.random()*100;
             if(chance >= 90){
-                console.log('OHHHHNOOESS');
-            $( "#trigger-hell" ).trigger( "click" );
+                $( "#trigger-hell" ).trigger( "click" );
             }
 
             mask.children('.mask-msg').attr('src','static/img/ex.png');
@@ -208,6 +205,11 @@ function verify(elm) {
 function update_score() {
     $("#score").text(game_score);
 }
+
+function update_level() {
+    $("#level-display").text(level);
+}
+
 
 function update_score_push() {
     $.ajax({
@@ -240,16 +242,13 @@ or just a call to destroyLink(link,difficulty);
 
 
     // GAME SHANINIGANS
-
+    level = 1;
     generate_game_board('.game-board', 'start');
-    console.log('Total Num of Links: '+ game_links_left);
 
-    play_game();
 
 
     // POPUP SHANIGANS
     $('#trigger-hell').click(function(){
-        console.log('Hell starting');
         var counter = 5;
         while(counter > 0){
             counter--;
@@ -278,11 +277,10 @@ or just a call to destroyLink(link,difficulty);
     });
 
     $('#Refresh_Game').click(function() {
-                console.log('RELOAD');
-                location.reload(true);
-                $('#info').css('display','none');
-
-            });
+        console.log('RELOAD');
+        location.reload(true);
+        $('#info').css('display','none');
+    });
 
     // AJAX POST
     $('#post-score').click();
@@ -318,6 +316,4 @@ or just a call to destroyLink(link,difficulty);
             }
         }
     }); 
-
-
 });
