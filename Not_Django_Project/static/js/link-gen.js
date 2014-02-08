@@ -81,12 +81,54 @@ var swaps = {
     "Y":["A","X","T"],
     "z":["s"],
     "Z":["S"],
-}
+};
+
+
+var link_set = [
+    'http://www.google.com',
+    'http://www.facebook.com',
+    'http://www.youtube.com',
+    'http://www.yahoo.com',
+    'http://www.baidu.com',
+    'http://www.wikipedia.com',
+    'http://www.qq.com',
+    'http://www.live.com',
+    'http://www.taobao.com',
+    'http://www.linkedin.com',
+    'http://www.twitter.com',
+    'http://www.amazon.com',
+    'http://www.blogspot.com',
+    'http://www.wordpress.com',
+    'http://www.bing.com',
+    'http://www.pinterest.com',
+    'http://www.ask.com',
+    'http://www.msn.com',
+    'http://www.tumblr.com',
+    'http://www.instagram.com',
+    'http://www.microsoft.com',
+    'http://www.paypal.com',
+    'http://www.imdb.com',
+    'http://www.apple.com',
+    'http://www.imgur.com',
+    'http://www.stackoverflow.com',
+    'http://www.adobe.com',
+    'http://www.cnn.com',
+    'http://www.wordpress.com'
+];
+
+
+var easter_eggs = [
+    'http://www.pornhub.com',
+
+];
+
 
 
 /* Main Generation Function */
-function getLink(level) { 
-    return destroyLink("http://www.google.com",level);
+function getLink(level) {
+    var x = Math.floor(link_set.length*Math.random());
+
+    return destroyLink(link_set[x],level);
 }
 
 /* Main Link Destruction Function */
