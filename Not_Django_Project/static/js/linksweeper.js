@@ -5,6 +5,9 @@ var game_level = 1;
 var tmplinks = ['aple', 'asas', 'asasa', 'dsfs', 'sfewf', 'fewfw', 'fwfwfw', 'rwefwf', 'wef23rfe', 'fwfwfw', 'rwefwf', 'wef23rfe'];
 
 var attmpts = 1;
+var corr_atmps = 0;
+
+var reader; //GLOBAL File Reader object for demo purpose only
 
 
 // RANDOM POPUP TEXT
@@ -156,6 +159,8 @@ function report_error(link, user_ans, corr_ans){
 
     }
     err_report += "<td>"+ corr_ans +"</td>";
+    err_report += "<td>"+ corr_atmps + '/' + attmpts
+     +"</td>";
     err_report + "</tr>";
 
     $('#error-report').append(err_report);
@@ -183,7 +188,9 @@ function verify(elm) {
         if ( translate_choice_to_human_lang == window.game_links[link_txt].value ) {
             mask.children('.mask-msg').attr('src','static/img/check.png');
             game_score += 1000;
+            corr_atmps++;
             report_error(link_txt, translate_choice_to_human_lang, translate_choice_to_human_lang ? "Safe" : "Unsafe");
+            
         } else {
 
             var chance;
@@ -204,6 +211,7 @@ function verify(elm) {
 }
 function update_score() {
     $("#score").text(game_score);
+    $("#score-frac").text(corr_atmps + '/' + attmpts);
 }
 
 function update_level() {
@@ -226,6 +234,60 @@ function update_score_push() {
         });
 }
 
+/**
+ * Check for the various File API support.
+ */
+function checkFileAPI() {
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+        reader = new FileReader();
+        return true; 
+    } else {
+        alert('The File APIs are not fully supported by your browser. Fallback required.');
+        return false;
+    }
+}
+
+/**
+ * read text input
+ */
+function readText(filePath) {
+    var output = ""; //placeholder for text output
+    if(filePath.files && filePath.files[0]) {           
+        reader.onload = function (e) {
+            output = e.target.result;
+            displayContents(output);
+        };//end onload()
+        reader.readAsText(filePath.files[0]);
+    }//end if html5 filelist support
+    else if(ActiveXObject && filePath) { //fallback to IE 6-8 support via ActiveX
+        try {
+            reader = new ActiveXObject("Scripting.FileSystemObject");
+            var file = reader.OpenTextFile(filePath, 1); //ActiveX File Object
+            output = file.ReadAll(); //text contents of file
+            file.Close(); //close file "input stream"
+            displayContents(output);
+        } catch (e) {
+            if (e.number == -2146827859) {
+                alert('Unable to access local files due to browser security settings. ' + 
+                 'To overcome this, go to Tools->Internet Options->Security->Custom Level. ' + 
+                 'Find the setting for "Initialize and script ActiveX controls not marked as safe" and change it to "Enable" or "Prompt"'); 
+            }
+        }       
+    }
+    else { //this is where you could fallback to Java Applet, Flash or similar
+        return false;
+    }       
+    return true;
+}   
+
+/**
+ * display content using a basic HTML replacement
+ */
+function displayContents(txt) {
+    var el = document.getElementById('main'); 
+    el.innerHTML = txt; //display output in DOM
+}   
+
 $(document).ready(function() {
 /*
 $('.link').generate() // will create a link and set the content
@@ -239,6 +301,8 @@ or just a call to destroyLink(link,difficulty);
 }
 
 */
+
+console.log(readText('static/text/woah.txt'));
 
 
     // GAME SHANINIGANS
