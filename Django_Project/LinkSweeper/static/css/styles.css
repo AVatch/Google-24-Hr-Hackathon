@@ -10,6 +10,21 @@ body {
   text-align: center;
 }
 
+.link-styler {
+	text-decoration: underline;
+	border-radius: 5px;
+	color: blue;
+	padding: 2px;
+}
+.link-container{
+	width: 250px;
+	border: 1px solid;
+}
+.link {
+	margin: 0px; 
+	margin-top:1%;
+}
+
 .center {
 	text-align: center;
 }

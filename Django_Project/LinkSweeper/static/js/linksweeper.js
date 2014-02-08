@@ -3,14 +3,49 @@ $(document).ready(function() {
 
     // Links
     $(function() {
+
+        var flag = true;
+        var initX = 0;
+        var initY = 0;
+
         $( ".link" ).draggable({ 
             axis: "x",
             cursor: "move", 
-            containment: ".link-container",
-            revert: true
+            containment: "parent",
+            revert: true,
+
+
+            drag: function(e) {
+
+                var parentOffset = $(this).parent().offset(); 
+                var relX = e.pageX - parentOffset.left;
+                var relY = e.pageY - parentOffset.top;
+
+                if(flag){
+                    initX = relX;
+                    initY = relY;
+                    flag = false;
+                }
+
+                console.log('(x,y): (' + relX + ',' + relY + ')');
+                console.log('Init (x,y): (' + initX + ',' + initY + ')');
+
+
+                // RGB
+                bg_color = [255, 255, 255];
+
+                // bg_color[0] -= relX;
+                // console.log('rgb('+bg_color[0]+','+bg_color[1]+','+bg_color[2]+')');
+                if( relX < initX){
+                    $(this).parent().css('background-color' , 'red');
+                }
+                if( relX > initX){
+                    $(this).parent().css('background-color' , 'green');
+                }
+
+            },
         });
     });
-
 
     // AJAX POST
     $('#post-score').click(function(){
