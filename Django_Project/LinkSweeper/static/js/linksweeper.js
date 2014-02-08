@@ -129,7 +129,7 @@ function play_game(){
                 var red_max = 255, green_max = 128;
                 var parentOffset = $(this).parent().offset(); 
                 var width = $(this).parent().width();
-                var relX = e.pageX - parentOffset.left;
+                var relX = e.pageX - (parentOffset.left+width/2);
                 var relY = e.pageY - parentOffset.top;
                 
                 
@@ -140,32 +140,38 @@ function play_game(){
                     flag = false;
                 }
                 var val;
+                console.log(relX + " " + initX);
                 if( relX < initX ){
                     if (Math.abs(relX) > red_max ) {
-                        val = red_max;
+                        val = 0; 
                     } else {
-                        val = red_max-Math.abs(relX)/(width/2)*red_max;
+                        val = 255-Math.abs(relX)/(width/2)*255;
                     }
                     val = Math.floor(val);
-                    console.log("rgb("+val+",0,0)");
-                    $(this).parent().css("background-color","rgb("+val+",0,0)");
+                    $(this).parent().css("background-color","rgb("+red_max+","+val+","+val+")");
                 }
                 else if( relX > initX){
                     if (Math.abs(relX) > green_max ) {
-                        val = green_max;
+                        val = 0;
                     } else {
-                        val = green_max-Math.abs(relX)/(width/2)*green_max;
+                        val = 255-Math.abs(relX)/(width/2)*255;
                     }
                     val = Math.floor(val);
+                    if (val > green_max) {
+                        green_val = val
+                    } else {
+                        green_val = green_max;
+                    }
                     console.log("rgb(0,"+val+",0)");
-                    $(this).parent().css("background-color","rgb(0,"+val+",0)");   
+                    $(this).parent().css("background-color","rgb("+val+","+green_val+","+val+")");   
                 }
             },
 
             stop: function(e){
                 game_links_left -- ;
-                var parentOffset = $(this).parent().offset(); 
-                var relX = e.pageX - parentOffset.left;
+                var parentOffset = $(this).parent().offset();
+                var w = $(this).parent().width();
+                var relX = e.pageX - (parentOffset.left+w/2);
                 var relY = e.pageY - parentOffset.top;
                 
                 
@@ -177,10 +183,10 @@ function play_game(){
                 }
 
                 if( relX < initX){
-                    $(this).parent().css('background-color' , 'red');
+                    $(this).parent().css('background-color' , 'rgb(255,0,0)');
                 }
                 else if( relX > initX){
-                    $(this).parent().css('background-color' , 'green');
+                    $(this).parent().css('background-color' , 'rgb(0,255,0)');
                 }
 
                 // get the link in the box
