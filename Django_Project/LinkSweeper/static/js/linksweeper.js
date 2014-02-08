@@ -27,8 +27,8 @@ function generate_game_board(parent_div, level_type){
                             "<div class='link-container center'>" +
                                 "<div class='link' style=''>" +
                                     "<p class='link-styler' style='background-color: white;'></p>" +
-                                    "<div class='mask center'><span class='mask-msg'></span></div>"+
                                 "</div>" +
+                                "<div class='mask center'><span class='mask-msg'></span></div>"+
                             "</div>" +
                       "</td>";
             }
@@ -46,6 +46,7 @@ function generate_game_board(parent_div, level_type){
 
 function clean_board(parent_div){
     $(parent_div).empty();
+    $('.mask').css('display','none');
 }
 
 function validate_game(){
@@ -76,34 +77,32 @@ function play_game(){
             revert: true,
 
             drag: function(e) {
+                /* Max for colors */
                 var red_max = 255, green_max = 128;
-                var parentOffset = $(this).parent().offset(); 
-                var width = $(this).parent().width();
-                var relX = e.pageX - (parentOffset.left+width/2);
-                var relY = e.pageY - parentOffset.top;
-                
-                            
-                if(flag){
-                    initX = relX;
-                    initY = relY;
-                    flag = false;
-                }
+                /* Dimensions for self */
+                var width = $(this).width();
+                var center = $(this).offset().left + width/2;
+                /* Dimensions for parents */
+                var parentWidth = $(this).parent().width();
+                var parentCenter = $(this).parent().offset().left + parentWidth/2;
+                /* Space between URL */
+                var diff = (parentWidth-width)/2;
+                var relX = center - parentCenter,
+                    relY = 0;
                 var val;
-                console.log(relX + " " + initX);
-                if( relX < initX ){
-                    if (Math.abs(relX) > (width-$(this).width())/2 ) {
+                if( relX < 0 ){
+                    if (Math.abs(relX) > diff) {
                         val = 0;
                     } else {
-                        val = 255*(1-Math.abs(relX)/((width-$(this).width())/2));
+                        val = 255*(1-Math.abs(relX)/(diff/2));
                     }
                     val = Math.floor(val);
                     $(this).parent().css("background-color","rgb("+red_max+","+val+","+val+")");
-                }
-                else if( relX > initX){
-                    if (Math.abs(relX) > (width-$(this).width())/2 ) {
+                } else { 
+                    if (Math.abs(relX) > diff ) {
                         val = 0;
                     } else {
-                        val = 255*(1-Math.abs(relX)/((width-$(this).width())/2));
+                        val = 255*(1-Math.abs(relX)/(diff/2));
                     }
                     val = Math.floor(val);
                     if (val > green_max) {
@@ -111,37 +110,25 @@ function play_game(){
                     } else {
                         green_val = green_max;
                     }
-                    console.log("rgb(0,"+val+",0)");
                     $(this).parent().css("background-color","rgb("+val+","+green_val+","+val+")");   
                 }
             },
 
             stop: function(e){
-                game_links_left -- ;
-                var parentOffset = $(this).parent().offset();
-                var w = $(this).parent().width();
-                var relX = e.pageX - (parentOffset.left+w/2);
-                var relY = e.pageY - parentOffset.top;
-                
-                
-                
-                if(flag){
-                    initX = relX;
-                    initY = relY;
-                    flag = false;
-                }
-
-                if( relX < initX){
+                /* Dimensions for parents */
+                var parentWidth = $(this).parent().width();
+                var parentCenter = $(this).parent().offset().left + parentWidth/2;
+                if( e.pageX < parentCenter){
                     $(this).parent().css('background-color' , 'rgb(255,0,0)');
                 }
-                else if( relX > initX){
+                else {
                     $(this).parent().css('background-color' , 'rgb(0,128,0)');
                 }
-
                 // get the link in the box
                 // check if correct
                 verify($(this));
                 // update score mark as correct or not
+                game_links_left--;
                 console.log('Links left' + game_links_left);
                 validate_game();
             }
@@ -156,27 +143,13 @@ function verify(elm) {
     }else if(choice == "rgb(255, 0, 0)"){
         translate_choice_to_human_lang = false; // RED
     }
-    var mask;
-    console.log(elm);
+    var mask = elm.next('.mask');
+    mask.css('display','block');
     if(translate_choice_to_human_lang == window.game_links[link].value){
-        mask = elm.next('.mask');
-        console.log("mask");
-        console.log(mask);
-        mask.css({
-            'display':'block',
-            'color':'green',
-        });
-        mask.children('mask-msg').text('Correct!');
+        mask.children('.mask-msg').text('Correct!').css('color','green');
         game_score += 1;
     }else{
-        mask = elm.next('.mask');
-        mask.css({
-            'display':'block',
-            'color':'red',
-        });
-        mask.children('mask-msg').text('Error!');
-        console.log("mask");
-        console.log(mask);
+        mask.children('.mask-msg').text('Wrong!').css('color','red');
         game_score -= 1;
     }
     update_score();

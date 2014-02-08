@@ -144,7 +144,7 @@ function letterSwap(link,difficulty) {
         pos = n;
         invalid = false;
     } catch (e) {
-        console.log(link[n]);
+        console.log(link + " " + n + " " + link[n]);
         console.log("invalid");
         n = -1;
         invalid = true;
