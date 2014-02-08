@@ -7,6 +7,6 @@ standard-app-packages
 autopublish
 insecure
 preserve-inputs
+accounts-ui
+accounts-twitter
 bootstrap
-accounts-ui-bootstrap-dropdown
-accounts-password

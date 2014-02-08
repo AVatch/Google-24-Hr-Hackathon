@@ -1,0 +1,38 @@
+<head>
+  <title>Linksweeper</title>
+ </head>
+ 
+<body>
+ 
+    <div class="navbar navbar-static-top navbar-inverse">
+ 
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">Epoll</a>
+          <ul class="nav pull-right">
+            <li>
+              {{loginButtons}}
+            </li>
+          </ul>
+        </div>
+      </div>
+ 
+</div>
+ 
+    <div class="container" id="main">
+        {{> banner}}
+    </div>
+</body>
+ 
+<template name="banner">
+    <div class="container">
+        <div class="row">
+            <div class="span6">
+                <div class="well">
+                    <h4>Sign in using Twitter to submit new questions or to vote on existing questions.</h4>
+                    {{loginButtons}}
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
